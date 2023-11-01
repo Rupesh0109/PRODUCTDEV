@@ -1,0 +1,219 @@
+<%- include('../components/header',{title:'Register-Laundry',auth:auth,data:data,admin:admin});%>
+
+<div style="background-image: url('https://wallpaperaccess.com/full/2637773.jpg');background-size: cover;
+background-position: center;
+height: 85vh;
+display: flex;
+justify-content: center;
+align-items: center;">
+
+<div id="register">
+<center><h1 style="margin-bottom: 20px;font-size:55px; font-family:Verdana, Geneva, Tahoma, sans-serif;text-shadow:2px 2px black">REGISTER</h1></center>
+<form method="post" action="register" onsubmit="return validateregister()">
+    <div class="mb-3">
+      <label for="name" class="form-label">Username</label>
+      <input type="text" class="form-control" id="name" aria-describedby="emailHelp" name="name" onblur="validatename()">
+      <p id="nameerror" style="color: red;"></p>
+    </div>
+    <div class="mb-3">
+        <label for="roll" class="form-label">E-mail</label>
+        <input type="text" class="form-control" id="roll" aria-describedby="emailHelp" name="roll" onblur="validaterollno()">
+        <p id="rollerror" style="color: red;"></p>
+      </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password" name="password" onblur="validatepassword()">
+      <p id="passworderror" style="color: red;"></p>
+    </div>
+    <div class="mb-3">
+        <label for="confirmpassword" class="form-label">Confirm Password</label>
+        <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" onblur="validateconfirmpassword()">
+        <p id="confirmpassworderror" style="color: red;"></p>
+      </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  <% if(modal){ %>
+    <div id="myModal" class="modal1"><div class="modal-content1"><span class="close">&times;</span><p>User Does not exist please Register</p></div></div>
+<% } %>
+</div>
+</div>
+
+<style>
+    #register{
+        color: white;
+        background-color: #00000086;
+        width:530px;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-bottom: 30px;
+    }
+
+
+    .modal1 {
+        display: block; 
+        position: fixed;  
+        z-index: 1;
+        padding-top: 100px; 
+        left: 0;
+        top: 0;
+        width: 100%; 
+        height: 100%; 
+        overflow: auto;  
+        background-color: rgb(0,0,0); 
+        background-color: rgba(0,0,0,0.4); 
+      }
+      
+      /* Modal Content */
+      .modal-content1 {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+      }
+      
+      /* The Close Button */
+      .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      
+      .close:hover,
+      .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+
+
+    .error{
+        border: solid 3px red;
+    }
+</style>
+<script>
+    var modal = document.getElementById("myModal");
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+        modal.style.display = "none";
+      }
+
+     window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+
+    function hasNumber(str) {
+        return /\d/.test(str);
+    }
+    function hasalpha(str){
+        return /[a-z]/i.test(str)
+    }
+    function validatename(){
+        if($("#name").val().length<1){
+            $("#name").addClass("error")
+            $("#nameerror").text("Username Cannot Be Empty")
+        }
+        if(($("#name").val().length>=1)){
+            $("#name").removeClass("error")
+            $("#nameerror").text("")
+        }
+         
+
+    }
+    function validaterollno(){
+        if($("#roll").val()==""){
+            $("#roll").addClass("error")
+            $("#rollerror").text("email cannot be empty")
+        }
+        if(($("#roll").val().length>=1)){
+            $("#roll").removeClass("error")
+            $("#rollerror").text("")
+        }
+        const email = $("#roll").val();
+        if (validateEmail(email)) {$("#roll").removeClass("error")
+        $("#rollerror").text("")
+        } else {
+            $("#rollerror").text("Invalid email address")
+        } 
+    } 
+
+    function validateEmail(email) {
+        const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+        return emailRegex.test(email);
+      }
+        
+    
+function validatepassword(){
+    if($("#password").val().length<1){
+        $("#password").addClass("error")
+        $("#passworderror").text("Password Cannot be Empty")
+    }
+    if(($("#password").val().length>=1)){
+        $("#password").removeClass("error")
+        $("#passworderror").text("")
+    }
+}
+function validateconfirmpassword(){
+    if($("#confirmpassword").val().length<1){
+        $("#confirmpassword").addClass("error")
+        $("#confirmpassworderror").text("Password Cannot be Empty")
+    }
+    if(($("#confirmpassword").val().length>=1)){
+        $("#confirmpassword").removeClass("error")
+        $("#confirmpassworderror").text("")
+    }
+
+}
+
+
+
+    function validateregister(){
+        var isValid=true;
+        if($("#name").val().length<1){
+            isValid=false;
+            $("#name").addClass("error")
+            $("#nameerror").text("Username Cannot Be Empty")
+        }
+        if(hasNumber($("#name").val())){
+            isValid=false;
+            $("#name").addClass("error")
+            $("#nameerror").text("Username Cannot contain numbers")
+        }
+        if(($("#roll").val())==""){
+            isValid=false
+            $("#roll").addClass("error")
+            $("#rollerror").text("Email Cannot Be Empty")
+        }
+        const email = $("#roll").val();
+        if (!(validateEmail(email))){
+            isValid=false
+            $("#rollerror").text("Invalid email address")
+        } 
+
+
+        if(($("#password").val()).length<1){
+            isValid=false
+            $("#password").addClass("error")
+            $("#passworderror").text("Password Cannot Be Empty")
+        }
+        if(($("#confirmpassword").val()).length<1){
+            isValid=false
+            $("#confirmpassword").addClass("error")
+            $("#confirmpassworderror").text("Password Cannot Be Empty")
+        }
+        if(($("#password").val())!=($("#confirmpassword").val())){
+            isValid=false
+            $("#password").addClass("error")
+            $("#confirmpassword").addClass("error")
+            $("#passworderror").text("Passwords donot match")
+            $("#confirmpassworderror").text("Passwords donot match")
+        }
+        
+        return isValid
+    }
+</script>
+<%- include('../components/footer') %>
